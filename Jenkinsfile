@@ -13,7 +13,7 @@ pipeline {
                 branch 'example-solution'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'ec2-user', usernameVariable: 'USERNAME', keyPath: '/tmp/pass_key.pem')]) {
+                withCredentials([usernamePassword(credentialsId: 'ec2-user', usernameVariable: 'USERNAME', pathToKey: '/tmp/pass_key.pem')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -22,7 +22,7 @@ pipeline {
                                 configName: 'staging',
                                 sshCredentials: [
                                     username: "$USERNAME",
-                                    keyPath: "/tmp/pass_key.pem"
+                                    pathToKey: "/tmp/pass_key.pem"
                                 ], 
                                 transfers: [
                                     sshTransfer(
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 input 'Does the staging environment look OK?'
                 milestone(1)
-                withCredentials([usernamePassword(credentialsId: 'ec2-user', usernameVariable: 'USERNAME', keyPath: '/tmp/pass_key.pem')]) {
+                withCredentials([usernamePassword(credentialsId: 'ec2-user', usernameVariable: 'USERNAME', pathToKey: '/tmp/pass_key.pem')]) {
                     sshPublisher(
                         failOnError: true,
                         continueOnError: false,
@@ -55,7 +55,7 @@ pipeline {
                                 sshCredentials: [
                                     username: "$USERNAME",
                                    // encryptedPassphrase: "$USERPASS"
-                                    keyPath: '/tmp/pass_key.pem'
+                                    pathToKey: '/tmp/pass_key.pem'
                                 ], 
                                 transfers: [
                                     sshTransfer(
